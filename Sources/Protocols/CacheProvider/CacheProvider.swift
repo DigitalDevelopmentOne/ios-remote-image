@@ -7,4 +7,10 @@
  
  */
 
-public protocol CacheProvider {}
+import Foundation
+
+public protocol CacheProvider {
+    static func instance() -> Self
+    func get(from: String) -> Data?
+    func save(data: Data, key: String, handler: @escaping (_ status: Bool) -> ())
+}

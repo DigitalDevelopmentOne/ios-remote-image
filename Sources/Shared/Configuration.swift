@@ -7,4 +7,14 @@
  
  */
 
-struct Configuration {}
+struct Configuration {
+    let cacheProvider: CacheProvider.Type
+    let remoteDataProvider: RemoteDataProvider.Type
+    let handler: Handler.Type
+    
+    static let `default`: Configuration = .init(
+        cacheProvider: Memory.self,
+        remoteDataProvider: Network.self,
+        handler: Crypto.self
+    )
+}
