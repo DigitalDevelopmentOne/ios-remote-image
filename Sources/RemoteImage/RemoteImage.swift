@@ -20,6 +20,7 @@ public struct RemoteImage<Content: View>: View, Equatable {
     let url: URL?
     let observable: Bool
     let content: (_ state: State) -> Content
+    var configuration: Configuration?
     
     init(url: URL?, observable: Bool, @ViewBuilder content: @escaping (_ state: State) -> Content) {
         self.url = url
@@ -27,11 +28,24 @@ public struct RemoteImage<Content: View>: View, Equatable {
         self.content = content
     }
     
+    public func configuration(_ value: Configuration) -> Self {
+        var view = self
+        view.configuration = configuration
+        return view
+    }
+    
+    func onAppear(){
+        if let configuration {
+            self.viewModel.cacheProvider = configuration.cacheProvider.instance()
+            self.viewModel.handler = configuration.handler.init()
+            self.viewModel.remoteDataProvider = configuration.remoteDataProvider.init()
+        }
+        self.viewModel.fetchImage(url: self.url, observable: self.observable)
+    }
+    
     public var body: some View {
         self.content(self.viewModel.state)
-            .onAppear{
-                self.viewModel.fetchImage(url: self.url, observable: self.observable)
-            }
+            .onAppear(perform: self.onAppear)
     }
 }
 

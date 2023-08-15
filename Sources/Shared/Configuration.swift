@@ -7,7 +7,15 @@
  
  */
 
-struct Configuration {
+public struct Configuration {
+    public init(
+        cacheProvider: CacheProvider.Type,
+        remoteDataProvider: RemoteDataProvider.Type,
+        handler: Handler.Type) {
+            self.cacheProvider = cacheProvider
+            self.remoteDataProvider = remoteDataProvider
+            self.handler = handler
+    }
     let cacheProvider: CacheProvider.Type
     let remoteDataProvider: RemoteDataProvider.Type
     let handler: Handler.Type
