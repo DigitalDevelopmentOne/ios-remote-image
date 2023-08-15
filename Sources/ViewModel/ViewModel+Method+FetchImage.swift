@@ -10,16 +10,16 @@
 import UIKit
 
 extension ViewModel {
-    func fetchImage(url: URL?, observable: Bool){
+    func fetchImage(url: URL?, observable: Bool, force: Bool){
         func worker(){
-            self.setState(.fetch(progress: nil))
+            self.setState(.fetch(progress: 0))
             guard let url else {
                 self.setState(.failure(error: .incorrectUrl(message: "Can't be nil")))
                 return
             }
             let key = self.handler.transform(from: url)
             
-            if let data = self.cacheProvider.get(from: key), let image = UIImage(data: data) {
+            if !force, let data = self.cacheProvider.get(from: key), let image = UIImage(data: data) {
                 self.setState(.success(image: image))
                 return
             }
