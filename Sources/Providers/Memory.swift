@@ -19,6 +19,16 @@ public final class Memory: CacheProvider {
         return Data(referencing:nsData)
     }
     
+    public func save(data: Data, key: String, handler: @escaping (_ status: Bool) -> ()) {
+        let filePath = self.directory.appendingPathComponent(key)
+        do {
+            try data.write(to: filePath)
+            handler(true)
+        } catch {
+            handler(false)
+        }
+    }
+    
     public static func instance() -> Memory {
         .main
     }
