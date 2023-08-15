@@ -1,21 +1,15 @@
 /*
  
  Project: RemoteImage
- File: Network.swift
+ File: Network+Method+Download.swift
  Created by: Egor Boyko
- Date: 14.08.2023
+ Date: 15.08.2023
  
  */
 
 import Foundation
 
-public final class Network : RemoteDataProvider {
-    public weak var delegate: RemoteDataProviderDelegate?
-    var observation: NSKeyValueObservation?
-    var lastProgress: Int = 0
-    
-    public init(){}
-    
+extension Network {
     public func download(url: URL, handler: @escaping (Result<Data, Error>) -> Void) {
         let task = URLSession.shared.downloadTask(with: url){ location, _, error in
             if let error = error {
@@ -27,7 +21,6 @@ public final class Network : RemoteDataProvider {
                 return
             }
             
- 
             guard FileManager.default.fileExists(atPath: localUrl.path),
             let nsData = NSData(contentsOfFile: localUrl.path) else {
                 handler(.failure(.location(message: "Date is incorrect")))
