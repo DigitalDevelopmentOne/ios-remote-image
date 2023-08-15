@@ -11,7 +11,7 @@ import UIKit
 
 public enum State {
     case inaction
-    case fetch(progress: CGFloat?)
+    case fetch(progress: CGFloat)
     case success(image: UIImage)
     case failure(error: Error)
 }
