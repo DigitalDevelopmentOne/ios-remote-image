@@ -9,9 +9,9 @@
 
 public struct Configuration {
     public init(
-        cacheProvider: CacheProvider.Type,
-        remoteDataProvider: RemoteDataProvider.Type,
-        handler: Handler.Type) {
+        cacheProvider: CacheProvider.Type = Memory.self,
+        remoteDataProvider: RemoteDataProvider.Type = Network.self,
+        handler: Handler.Type = Crypto.self) {
             self.cacheProvider = cacheProvider
             self.remoteDataProvider = remoteDataProvider
             self.handler = handler
@@ -20,11 +20,7 @@ public struct Configuration {
     let remoteDataProvider: RemoteDataProvider.Type
     let handler: Handler.Type
     
-    static let `default`: Configuration = .init(
-        cacheProvider: Memory.self,
-        remoteDataProvider: Network.self,
-        handler: Crypto.self
-    )
+    static let `default`: Configuration = .init()
     
     public func install(){
         Storage.configure(self)
