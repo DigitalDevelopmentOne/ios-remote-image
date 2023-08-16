@@ -15,6 +15,10 @@ extension RemoteImage {
         return view
     }
     
+//    public func cacheProvider(_ value: CacheProvider) -> Self {
+//        
+//    }
+    
     public func force(_ value: Bool) -> Self {
         var view = self
         view.force = value

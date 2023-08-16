@@ -11,20 +11,17 @@ import SwiftUI
 
 public final class ViewModel: ObservableObject {
     init(){
-        let configuration: Configuration
-        if let remoteImageConfiguration = Storage.configuration {
-            configuration = remoteImageConfiguration
-        } else {
-            configuration = .default
-            Storage.configure(configuration)
-        }
-        self.cacheProvider = configuration.cacheProvider.instance()
-        self.remoteDataProvider = configuration.remoteDataProvider.init()
-        self.handler = configuration.handler.init()
+        self.cacheProvider = Storage.configuration.cacheProvider.instance()
+        self.remoteDataProvider = Storage.configuration.remoteDataProvider.init()
+        self.handler = Storage.configuration.handler.init()
         self.state = .inaction
     }
     var cacheProvider: CacheProvider
     var remoteDataProvider: RemoteDataProvider
     var handler: Handler
     var state: State
+    func cancel(){
+        self.remoteDataProvider.cancel()
+        self.setState(.inaction)
+    }
 }

@@ -8,8 +8,8 @@
  */
 
 struct Storage {
-    static var configuration: Configuration?
-    static func configure(_ configuration: Configuration = .default){
+    static var configuration: Configuration = .default
+    static func configure(_ configuration: Configuration){
         self.configuration = configuration
     }
 }

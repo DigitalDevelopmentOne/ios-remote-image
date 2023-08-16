@@ -11,7 +11,7 @@ import UIKit
 
 extension ViewModel {
     func fetchImage(url: URL?, observable: Bool, force: Bool){
-        func worker(){
+        self.toMainThread{
             self.setState(.fetch(progress: 0))
             guard let url else {
                 self.setState(.failure(error: .incorrectUrl(message: "Can't be nil")))
@@ -19,7 +19,9 @@ extension ViewModel {
             }
             let key = self.handler.transform(from: url)
             
-            if !force, let data = self.cacheProvider.get(from: key), let image = UIImage(data: data) {
+            if !force,
+               let data = self.cacheProvider.get(from: key),
+               let image = UIImage(data: data) {
                 self.setState(.success(image: image))
                 return
             }
@@ -45,6 +47,5 @@ extension ViewModel {
                 }
             }
         }
-        self.toMainThread(action: worker)
     }
 }
