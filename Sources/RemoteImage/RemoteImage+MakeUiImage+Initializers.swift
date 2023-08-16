@@ -1,7 +1,7 @@
 /*
  
  Project: RemoteImage
- File: RemoteImage+makeUiImage+Initializers.swift
+ File: RemoteImage+MakeUiImage+Initializers.swift
  Created by: Egor Boyko
  Date: 16.08.2023
  
