@@ -1,12 +1,11 @@
-//
-//  File.swift
-//  
-//
-//  Created by Егор Бойко on 14.08.2023.
-//
-
-import Foundation
-
+/*
+ 
+ Project: RemoteImage
+ File: Storage.swift
+ Created by: Egor Boyko
+ Date: 14.08.2023
+ 
+ */
 
 struct Storage {
     static var configuration: Configuration?

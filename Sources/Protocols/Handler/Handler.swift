@@ -10,6 +10,6 @@
 import Foundation
 
 public protocol Handler {
-    func transform(from url: URL) -> String
     init()
+    func transform(from url: URL) -> String
 }

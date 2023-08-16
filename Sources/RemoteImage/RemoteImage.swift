@@ -9,56 +9,30 @@
 
 import SwiftUI
 
-public struct RemoteImage<Content: View>: View, Equatable {
-    public static func == (lhs: RemoteImage<Content>, rhs: RemoteImage<Content>) -> Bool {
-        lhs.url == rhs.url
+public struct RemoteImage<Content: View>: View{
+    init(
+        url: URL?,
+        observable: Bool,
+        option: Option,
+        configuration: Configuration? = nil,
+        force: Bool = false) {
+            self.url = url
+            self.observable = observable
+            self.option = option
+            self.configuration = configuration
+            self.force = force
     }
-    
-    
+
     @StateObject
     var viewModel: ViewModel = .init()
     let url: URL?
     let observable: Bool
-    let content: (_ state: State) -> Content
-    
-    init(url: URL?, observable: Bool, @ViewBuilder content: @escaping (_ state: State) -> Content) {
-        self.url = url
-        self.observable = observable
-        self.content = content
-    }
+    let option: Self.Option
+    var configuration: Configuration?
+    var force: Bool
     
     public var body: some View {
-        self.content(self.viewModel.state)
-            .onAppear{
-                self.viewModel.fetchImage(url: self.url, observable: self.observable)
-            }
+        self.makeContent()
+            .onAppear(perform: self.onAppear)
     }
 }
-
-#if DEBUG
-fileprivate struct PreviewView: View {
-    var body: some View {
-        ZStack{
-            RemoteImage(url: .init(string: "https://loremflickr.com/400/400"), observable: true) { state in
-                switch state {
-                case .fetch(let progress):
-                    Text("\(progress ?? 0)")
-                case .inaction:
-                    Text("Нету")
-                case .success(let image):
-                    Image(uiImage: image)
-                case .failure(_):
-                    Text("Не срослось")
-                }
-            }
-        }
-        .ignoresSafeArea()
-    }
-}
-
-struct RemoteImage_PreviewView: PreviewProvider {
-    static var previews: some View {
-        PreviewView()
-    }
-}
-#endif
