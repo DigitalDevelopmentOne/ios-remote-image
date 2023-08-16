@@ -25,4 +25,9 @@ public struct Configuration {
         remoteDataProvider: Network.self,
         handler: Crypto.self
     )
+    
+    func install(){
+        Storage.configure(self)
+    }
+    
 }
