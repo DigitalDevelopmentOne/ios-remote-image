@@ -33,7 +33,7 @@ extension RemoteImage {
         if self.viewModel.state != .inaction {
             content()
                 .onDisappear{
-                    self.viewModel.setState(.inaction)
+                    self.viewModel.cancel()
                 }
         } else {
             content()

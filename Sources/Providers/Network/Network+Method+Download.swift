@@ -11,7 +11,7 @@ import Foundation
 
 extension Network {
     public func download(url: URL, handler: @escaping (Result<Data, Error>) -> Void) {
-        let task = URLSession.shared.downloadTask(with: url){ location, _, error in
+        self.task = URLSession.shared.downloadTask(with: url){ location, _, error in
             if let error = error {
                 handler(.failure(.remoteData(error: error)))
                 return
@@ -29,7 +29,7 @@ extension Network {
             handler(.success(.init(referencing: nsData)))
         }
         
-        if let delegate {
+        if let delegate, let task {
             self.observation = task.progress.observe(\.fractionCompleted) { progress, _  in
                 let progress = Int(progress.fractionCompleted * 10)
                 if self.lastProgress != progress && progress % 2 == 0 {
@@ -40,6 +40,6 @@ extension Network {
                 }
             }
         }
-        task.resume()
+        self.task?.resume()
     }
 }

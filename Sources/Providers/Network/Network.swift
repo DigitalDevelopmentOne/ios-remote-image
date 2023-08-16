@@ -10,8 +10,12 @@
 import Foundation
 
 public final class Network: RemoteDataProvider {
+    public func cancel() {
+        self.task?.cancel{ _ in }
+    }
     public init(){}
     public weak var delegate: RemoteDataProviderDelegate?
     var observation: NSKeyValueObservation?
     var lastProgress: Int = 0
+    var task: URLSessionDownloadTask?
 }
