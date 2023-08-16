@@ -93,7 +93,7 @@ Perform the configuration and install it anywhere before the first appearance of
 ```
 
 #### Single image configuration
-Perform the configuration and install it anywhere before the first appearance of any of your Views.
+The configuration will be active for the current instance
 
 ```swift
 
