@@ -10,13 +10,18 @@
 import SwiftUI
 
 extension RemoteImage {
-    public init(url: URL?, @ViewBuilder content: @escaping (UIImage?, Error?) -> Content){
-        self.init(url: url, observable: false, option: .uiImage(content))
-    }
-    
-    public init(url: String, @ViewBuilder content: @escaping (UIImage?, Error?) -> Content){
-        self.init(url: .init(string: url), content: content)
-    }
+    ///Get UIImage with error from url
+    public init(
+        url: URL?,
+        @ViewBuilder content: @escaping (_ uiImage: UIImage?, _ error: Error?) -> Content){
+            self.init(url: url, observable: false, option: .uiImage(content))
+        }
+    ///Get UIImage with error from urlString
+    public init(
+        url: String,
+        @ViewBuilder content: @escaping (_ uiImage: UIImage?, _ error: Error?) -> Content){
+            self.init(url: .init(string: url), content: content)
+        }
     
     @ViewBuilder
     func makeUiImage(content: (UIImage?, Error?) -> Content) -> some View {
@@ -30,33 +35,3 @@ extension RemoteImage {
         }
     }
 }
-
-#if DEBUG
-struct RemoteImage_UiImage_PreviewView: PreviewProvider {
-    static var previews: some View {
-        VStack{
-            RemoteImage(url: "https://loremflickr.com/400/400") { uiImage, error in
-                if let _ = error {
-                    Text("Error")
-                } else if let uiImage {
-                    Image(uiImage: uiImage)
-                } else {
-                    Text("Downloading")
-                }
-            }
-            .force(true)
-            RemoteImage(url: "--") { uiImage, error in
-                if let error {
-                    Text("Error: \(error.debugDescription)")
-                        .font(.system(size: 10))
-                } else if let uiImage {
-                    Image(uiImage: uiImage)
-                } else {
-                    Text("Downloading")
-                }
-            }
-            .force(true)
-        }
-    }
-}
-#endif

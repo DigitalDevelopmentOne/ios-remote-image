@@ -10,12 +10,17 @@
 import SwiftUI
 
 extension RemoteImage {
-    public init(url: URL?, @ViewBuilder content: @escaping (Image?, Error?) -> Content){
-        self.init(url: url, observable: false, option: .image(content))
+    ///Get Image with error from url
+    public init(
+        url: URL?,
+        @ViewBuilder content: @escaping (_ image: Image?, _ error: Error?) -> Content){
+            self.init(url: url, observable: false, option: .image(content))
     }
-    
-    public init(url: String, @ViewBuilder content: @escaping (Image?, Error?) -> Content){
-        self.init(url: .init(string: url), content: content)
+    ///Get Image with error from urlString
+    public init(
+        url: String,
+        @ViewBuilder content: @escaping (_ image: Image?, _ error: Error?) -> Content){
+            self.init(url: .init(string: url), content: content)
     }
     
     @ViewBuilder
@@ -30,33 +35,3 @@ extension RemoteImage {
         }
     }
 }
-
-#if DEBUG
-struct RemoteImage_Image_PreviewView: PreviewProvider {
-    static var previews: some View {
-        VStack{
-            RemoteImage(url: "https://loremflickr.com/400/400") { image, error in
-                if let _ = error {
-                    Text("Error")
-                } else if let image {
-                    image
-                } else {
-                    Text("Downloading")
-                }
-            }
-            .force(true)
-            RemoteImage(url: "--") { image, error in
-                if let error {
-                    Text("Error: \(error.debugDescription)")
-                        .font(.system(size: 10))
-                } else if let image {
-                    image
-                } else {
-                    Text("Downloading")
-                }
-            }
-            .force(true)
-        }
-    }
-}
-#endif
