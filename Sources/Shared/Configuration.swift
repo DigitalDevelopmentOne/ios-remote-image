@@ -26,7 +26,7 @@ public struct Configuration {
         handler: Crypto.self
     )
     
-    func install(){
+    public func install(){
         Storage.configure(self)
     }
     
